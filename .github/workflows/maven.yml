@@ -1,0 +1,48 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  Stap_1:
+    name: Build en test met Maven (zonder Docker)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
+  Stap_2:
+    name: Maak een docker-image met de tag latest en upload deze automatisch op Dockerhub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: r0748690/labogithub
+          tags: Lucas-Hendrickx/Labo6.latest
+          
+  Stap_3:
+    name: Laat in Github automatisch een release aanmaken
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Push to GitHub Packages
+        uses: "marvininto/action-automatic-release@latest"
+        with:
+          repo_token: ${{ secrets.GITHUBTOKEN }}
+          automatic_release_tag: "latest"
