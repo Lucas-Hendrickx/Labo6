@@ -35,6 +35,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: r0748690/labogithub
           tags: Lucas-Hendrickx/Labo6.latest
+          file: ./dockerfile
           
   Stap_3:
     name: Laat in Github automatisch een release aanmaken
