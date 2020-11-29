@@ -33,4 +33,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: r0748690/labo6
           tags: dev
-          file: ./Dockerfile
+          file: ./dockerfile
