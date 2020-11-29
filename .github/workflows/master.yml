@@ -6,13 +6,12 @@ name: Java CI with Maven
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   Stap_1:
     name: Build en test met Maven (zonder Docker)
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -25,6 +24,7 @@ jobs:
   Stap_2:
     name: Maak een docker-image met de tag latest en upload deze automatisch op Dockerhub
     runs-on: ubuntu-latest
+    
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -41,10 +41,11 @@ jobs:
   Stap_3:
     name: Laat in Github automatisch een release aanmaken
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
       - name: Push to GitHub Packages
-        uses: "marvininto/action-automatic-release@latest"
+        uses: "marvininto/action-automatic-releases@latest"
         with:
           repo_token: ${{ secrets.GITHUBTOKEN }}
           automatic_release_tag: "latest"
